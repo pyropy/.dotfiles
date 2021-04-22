@@ -43,11 +43,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
-
-" Autocomplete plugins
-"Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 let g:deoplete#enable_at_startup = 1
@@ -74,6 +69,8 @@ Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'tomasr/molokai'
+Plug 'danilo-augusto/vim-afterglow'
+Plug 'tomasiser/vim-code-dark'
 
 "*****************************************************************************
 "" Custom bundles
@@ -173,7 +170,7 @@ set ruler
 set relativenumber
 
 let no_buffers_menu=1
-silent! colorscheme molokai
+silent! colorscheme codedark
 
 set mousemodel=popup
 set t_Co=256
@@ -191,7 +188,7 @@ else
   " IndentLine
   let g:indentLine_enabled = 1
   let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '┆'
+  let g:indentLine_char = '‚îÜ'
   let g:indentLine_faster = 1
 
   
@@ -231,7 +228,7 @@ endif
 tnoremap <Esc> <C-\><C-n>
 
 " vim-airline
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'afterglow'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -427,6 +424,7 @@ noremap <leader>w :bn<CR>
 "" Close buffer
 noremap <leader>c :bd<CR>
 
+
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
 
@@ -529,32 +527,32 @@ endif
 if !exists('g:airline_powerline_fonts')
   let g:airline#extensions#tabline#left_sep = ' '
   let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline_left_sep          = '‚ñ∂'
+  let g:airline_left_alt_sep      = '¬ª'
+  let g:airline_right_sep         = '‚óÄ'
+  let g:airline_right_alt_sep     = '¬´'
+  let g:airline#extensions#branch#prefix     = '‚§¥' "‚ûî, ‚û•, ‚éá
+  let g:airline#extensions#readonly#symbol   = '‚äò'
+  let g:airline#extensions#linecolumn#prefix = '¬∂'
+  let g:airline#extensions#paste#symbol      = 'œÅ'
+  let g:airline_symbols.linenr    = '‚êä'
+  let g:airline_symbols.branch    = '‚éá'
+  let g:airline_symbols.paste     = 'œÅ'
+  let g:airline_symbols.paste     = '√û'
+  let g:airline_symbols.paste     = '‚à•'
+  let g:airline_symbols.whitespace = 'Œû'
 else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
+  let g:airline#extensions#tabline#left_sep = 'ÓÇ∞'
+  let g:airline#extensions#tabline#left_alt_sep = 'ÓÇ±'
 
   " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
+  let g:airline_left_sep = 'ÓÇ∞'
+  let g:airline_left_alt_sep = 'ÓÇ±'
+  let g:airline_right_sep = 'ÓÇ≤'
+  let g:airline_right_alt_sep = 'ÓÇ≥'
+  let g:airline_symbols.branch = 'ÓÇ†'
+  let g:airline_symbols.readonly = 'ÓÇ¢'
+  let g:airline_symbols.linenr = 'ÓÇ°'
 endif
 
 
@@ -614,13 +612,24 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+function! s:GoToDefinition()
+  if CocAction('jumpDefinition')
+    return v:true
+  endif
+
+  let ret = execute("silent! normal \<C-]>")
+  if ret =~ "Error" || ret =~ "ÈîôËØØ"
+    call searchdecl(expand('<cword>'))
+  endif
+endfunction
+
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd :call <SID>GoToDefinition()<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
