@@ -5,7 +5,7 @@
 "*****************************************************************************
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 
-let g:vim_bootstrap_langs = "elixir,javascript,python,typescript"
+let g:vim_bootstrap_langs = "elixir,javascript,python,typescript,haskell"
 let g:vim_bootstrap_editor = "nvim"				" nvim or vim
 
 if !filereadable(vimplug_exists)
@@ -102,6 +102,11 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'posva/vim-vue'
 Plug 'leafOfTree/vim-vue-plugin'
 
+" haskell
+"" Haskell Bundle
+Plug 'eagletmt/neco-ghc'
+Plug 'dag/vim2hs'
+Plug 'pbrisbin/vim-syntax-shakespeare'
 
 
 "*****************************************************************************
@@ -188,7 +193,7 @@ else
   " IndentLine
   let g:indentLine_enabled = 1
   let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '‚îÜ'
+  let g:indentLine_char = '‚Äö√Æ√ú'
   let g:indentLine_faster = 1
 
   
@@ -285,7 +290,7 @@ if !exists('*s:setupWrapping')
   function s:setupWrapping()
     set wrap
     set wm=2
-    set textwidth=79
+    set extwidth=79
   endfunction
 endif
 
@@ -449,8 +454,13 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "" Custom configs
 "*****************************************************************************
 
-" elixir
+" haskell
+let g:haskell_conceal_wide = 1
+let g:haskell_multiline_strings = 1
+let g:necoghc_enable_detailed_browse = 1
+autocmd Filetype haskell setlocal omnifunc=necoghc#omnifunc
 
+" elixir
 
 " javascript
 let g:javascript_enable_domhtmlcss = 1
@@ -554,8 +564,6 @@ else
   let g:airline_symbols.readonly = 'ÓÇ¢'
   let g:airline_symbols.linenr = 'ÓÇ°'
 endif
-
-
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -618,7 +626,7 @@ function! s:GoToDefinition()
   endif
 
   let ret = execute("silent! normal \<C-]>")
-  if ret =~ "Error" || ret =~ "ÈîôËØØ"
+  if ret =~ "Error" || ret =~ "√à√Æ√¥√ã√ò√ò"
     call searchdecl(expand('<cword>'))
   endif
 endfunction
