@@ -103,38 +103,14 @@ Plug 'tomasiser/vim-code-dark'
 "" Custom bundles
 "*****************************************************************************
 
-" elixir
-Plug 'elixir-lang/vim-elixir'
-Plug 'carlosgaldino/elixir-snippets'
-Plug 'slashmili/alchemist.vim'
-
-" javascript
-"" Javascript Bundle
-Plug 'jelera/vim-javascript-syntax'
-
-
 " python
 "" Python Bundle
-Plug 'davidhalter/jedi-vim'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'jmcantrell/vim-virtualenv'
 
-
-" typescript
-Plug 'leafgarland/typescript-vim'
-Plug 'HerringtonDarkholme/yats.vim'
-
-
-" vuejs
-Plug 'posva/vim-vue'
-Plug 'leafOfTree/vim-vue-plugin'
-
 " haskell
 "" Haskell Bundle
-Plug 'eagletmt/neco-ghc'
 Plug 'dag/vim2hs'
-Plug 'pbrisbin/vim-syntax-shakespeare'
-
 
 "*****************************************************************************
 "*****************************************************************************
