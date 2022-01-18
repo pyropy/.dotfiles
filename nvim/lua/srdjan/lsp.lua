@@ -15,6 +15,8 @@ require('lspkind').init({
     with_text = true,
 })
 
+local luasnip = require("luasnip")
+
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -31,7 +33,25 @@ cmp.setup({
 	mapping = {
 		["<C-u>"] = cmp.mapping.scroll_docs(-4),
 		["<C-d>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), 
+        ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+            else
+              fallback()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+          else
+            fallback()
+          end
+        end,
 	},
 
     formatting = {
@@ -95,41 +115,29 @@ require("lspconfig").clangd.setup(config({
 	end,
 }))
 --]]
-require("lspconfig").html.setup(config())
+-- require("lspconfig").html.setup(config())
+-- 
+-- require("lspconfig").tsserver.setup(config())
+-- 
+-- require("lspconfig").hls.setup(config())
+-- 
+-- require("lspconfig").solang.setup(config())
+-- 
+-- require("lspconfig").dockerls.setup(config())
+-- 
+-- require("lspconfig").gopls.setup(config())
 
-require("lspconfig").tsserver.setup(config())
+local lspconfig = require('lspconfig')
 
-require("lspconfig").hls.setup(config())
+local servers = { 'html', 'tsserver', 'hls', 'gopls', 'dockerls', 'solang', 'rust_analyzer'}
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    capabilities = capabilities,
+  }
+end
 
-require("lspconfig").solang.setup(config())
-
-require("lspconfig").dockerls.setup(config())
-
-require("lspconfig").gopls.setup(config({
-	cmd = { "gopls", "serve" },
-	settings = {
-		gopls = {
-			analyses = {
-				unusedparams = true,
-			},
-			staticcheck = true,
-		},
-	},
-}))
-
--- who even uses this?
-require("lspconfig").rust_analyzer.setup(config({
-    cmd = { "rustup", "run", "nightly", "rust-analyzer"},
-    --[[
-    settings = {
-        rust = {
-            unstable_features = true,
-            build_on_save = false,
-            all_features = true,
-        },
-    }
-    --]]
-}))
+-- require("lspconfig").rust_analyzer.setup{}
 
 local opts = {
 	-- whether to highlight the currently hovered symbol
@@ -159,8 +167,8 @@ local snippets_paths = function()
 	return paths
 end
 
--- require("luasnip.loaders.from_vscode").lazy_load({
--- 	paths = snippets_paths(),
--- 	include = nil, -- Load all languages
--- 	exclude = {},
--- })
+require("luasnip.loaders.from_vscode").lazy_load({
+	paths = snippets_paths(),
+	include = nil, -- Load all languages
+	exclude = {},
+})
