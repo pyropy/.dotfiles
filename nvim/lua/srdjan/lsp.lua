@@ -104,32 +104,9 @@ local function config(_config)
 	}, _config or {})
 end
 
-require("lspconfig").tsserver.setup(config())
-
---[[  I cannot seem to get this woring on new computer..
-require("lspconfig").clangd.setup(config({
-	cmd = { "clangd", "--background-index", "--log=verbose" },
-    root_dir = function()
-        print("clangd-Rootdir", vim.loop.cwd())
-		return vim.loop.cwd()
-	end,
-}))
---]]
--- require("lspconfig").html.setup(config())
--- 
--- require("lspconfig").tsserver.setup(config())
--- 
--- require("lspconfig").hls.setup(config())
--- 
--- require("lspconfig").solang.setup(config())
--- 
--- require("lspconfig").dockerls.setup(config())
--- 
--- require("lspconfig").gopls.setup(config())
-
 local lspconfig = require('lspconfig')
 
-local servers = { 'html', 'tsserver', 'hls', 'gopls', 'dockerls', 'solang', 'rust_analyzer'}
+local servers = { 'html', 'tsserver', 'hls', 'gopls', 'dockerls', 'solc', 'rust_analyzer'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
