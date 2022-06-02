@@ -1,4 +1,4 @@
-" vim-bootstrap 
+vim-bootstrap 
 
 "*****************************************************************************
 "" Vim-PLug core
@@ -50,6 +50,7 @@ Plug 'tpope/vim-projectionist'
 
 " LSP Plugins
 Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -76,7 +77,11 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 
 " Prettier
-Plug 'sbdchd/neoformat'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'branch': 'release/0.x'
+  \ }
+
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -95,9 +100,11 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
 "" Color
-Plug 'ellisonleao/gruvbox'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'danilo-augusto/vim-afterglow'
 Plug 'tomasiser/vim-code-dark'
+Plug 'chriskempson/base16-vim'
+
 
 "*****************************************************************************
 "" Custom bundles
@@ -134,6 +141,9 @@ filetype plugin indent on
 lua require("srdjan")
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
+"" Prettier
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue PrettierAsync
 
 "" Encoding
 set encoding=utf-8
@@ -185,8 +195,11 @@ set relativenumber
 
 let no_buffers_menu=1
 
+let base16colorspace=256  " Access colors present in 256 colorspace
+set termguicolors
 set background=dark
-colorscheme gruvbox
+colorscheme base16-default-dark
+
 
 highlight ColorColumn ctermbg=0 guibg=grey
 hi SignColumn guibg=none
@@ -506,12 +519,14 @@ let python_highlight_all = 1
 " typescript
 let g:yats_host_keyword = 1
 
-
 " vuejs
 " vim vue
 let g:vue_disable_pre_processors=1
 " vim vue plugin
 let g:vim_vue_plugin_load_full_syntax = 1
+
+" golang
+let g:go_fmt_command = "goimports"
 
 
 "*****************************************************************************
