@@ -1,4 +1,4 @@
-vim-bootstrap 
+" vim-bootstrap 
 
 "*****************************************************************************
 "" Vim-PLug core
@@ -29,42 +29,42 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary' " Comment stuff ou
+Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter' " Vim git diff tool
 Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/CSApprox'
-Plug 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate' " Atomatic closing of brackets and whatnote
 Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
-Plug 'avelino/vim-bootstrap-updater'
+Plug 'avelino/vim-bootstrap-updater' "TODO: Delete 
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
-Plug 'junegunn/gv.vim'
-Plug 'vim-utils/vim-man'
-Plug 'mbbill/undotree'
+Plug 'junegunn/gv.vim' " Commit browser
+Plug 'vim-utils/vim-man' " Man pages in vim
+Plug 'mbbill/undotree' " Undo stuff 
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist' " TODO: Probably delete this
 
 
 " LSP Plugins
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-Plug 'onsails/lspkind-nvim'
-Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'williamboman/nvim-lsp-installer' " Update to https://github.com/williamboman/mason.nvim
+Plug 'hrsh7th/nvim-cmp' " Completion plugin
+Plug 'hrsh7th/cmp-nvim-lsp' " Completion for nvim lsp
+Plug 'hrsh7th/cmp-buffer' " Completion for buffer words
+Plug 'hrsh7th/cmp-path' " Completion for  filesystem paths
+Plug 'hrsh7th/cmp-cmdline'  " Completion for vim cmd line
+Plug 'onsails/lspkind-nvim' " Adds icons to autocomplete tab
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' } " Tabnine completion support TODO: PRobably delete this
+Plug 'nvim-lua/lsp_extensions.nvim' " Inline hints and stuff TODO: Replace
 
-Plug 'glepnir/lspsaga.nvim'
-Plug 'simrat39/symbols-outline.nvim'
+Plug 'glepnir/lspsaga.nvim' " Neovim lsp config
+Plug 'simrat39/symbols-outline.nvim' " A tree like view for symbols in Neovim using the Language Server Protocol. 
 
 " Snippets
-Plug 'L3MON4D3/LuaSnip'
+Plug 'L3MON4D3/LuaSnip' " Snippet engine
 Plug 'rafamadriz/friendly-snippets'
 Plug 'saadparwaiz1/cmp_luasnip' 
 
@@ -310,6 +310,7 @@ nnoremap <silent> <leader>f :Rg<CR>
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
+" rg command
 
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
