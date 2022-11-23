@@ -57,7 +57,6 @@ Plug 'hrsh7th/cmp-buffer' " Completion for buffer words
 Plug 'hrsh7th/cmp-path' " Completion for  filesystem paths
 Plug 'hrsh7th/cmp-cmdline'  " Completion for vim cmd line
 Plug 'onsails/lspkind-nvim' " Adds icons to autocomplete tab
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' } " Tabnine completion support TODO: PRobably delete this
 Plug 'nvim-lua/lsp_extensions.nvim' " Inline hints and stuff TODO: Replace
 
 Plug 'glepnir/lspsaga.nvim' " Neovim lsp config
