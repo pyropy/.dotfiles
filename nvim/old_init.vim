@@ -137,7 +137,7 @@ filetype plugin indent on
 "*****************************************************************************"
 "" LSP configs
 
-lua require("srdjan")
+lua require("pyropy")
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
 "" Prettier
