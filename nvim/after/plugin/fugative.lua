@@ -1,11 +1,10 @@
 -- Mapping
 vim.keymap.set("n", "<Leader>ga", ":Gwrite<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gc", ":Gcommit<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gsh", ":Gpush<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gll", ":Gpull<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gs", ":Gstatus<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gb", ":Gblame<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>gc", ":G commit<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>gsh", ":G push<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>gll", ":G pull<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>gs", ":G status<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>gb", ":G blame<CR>", { noremap = true })
 vim.keymap.set("n", "<Leader>gd", ":Gvdiff<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>gr", ":Gremove<CR>", { noremap = true })
-vim.keymap.set("n", "<Leader>o", ":.Gbrowse<CR>", { noremap = true })
-
+vim.keymap.set("n", "<Leader>gr", ":GRemove<CR>", { noremap = true })
+vim.keymap.set("n", "<Leader>o", ":.GBrowse<CR>", { noremap = true })
