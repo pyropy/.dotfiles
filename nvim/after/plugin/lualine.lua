@@ -1,7 +1,7 @@
 require("lualine").setup {
     options = {
         icons_enabled = false,
-        theme = "onedark",
+        theme = "auto", -- track the colorscheme (tokyonight) instead of hardcoding onedark
         component_separators = "|",
         section_separators = "",
     },

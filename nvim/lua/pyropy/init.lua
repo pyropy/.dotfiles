@@ -7,15 +7,27 @@ end
 
 local au = vim.api.nvim_create_autocmd
 local ag = vim.api.nvim_create_augroup
-local clear_au = vim.api.nvim_clear_autocmds
 
--- Autoformat on save
-local augroup = ag("LspFormatting", { clear = false })
-au("BufWritePre", {
-    clear_au({ group = augroup, buffer = bufnr }),
+-- Format on save, but only for buffers with a client that can actually format.
+-- Previously this registered a single global BufWritePre autocmd (the `bufnr`
+-- it referenced was a nil global), so writing any buffer without an attached
+-- LSP printed "Format request failed, no matching language servers".
+local augroup = ag("LspFormatting", { clear = true })
+
+au("LspAttach", {
     group = augroup,
-    buffer = bufnr,
-    callback = function()
-        vim.lsp.buf.format()
+    callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if not client or not client:supports_method("textDocument/formatting") then
+            return
+        end
+
+        au("BufWritePre", {
+            group = augroup,
+            buffer = ev.buf,
+            callback = function()
+                vim.lsp.buf.format({ bufnr = ev.buf, id = client.id })
+            end,
+        })
     end,
 })

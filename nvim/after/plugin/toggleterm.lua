@@ -26,6 +26,12 @@ toggleterm.setup {
     },
 }
 
-local keymap = vim.keymap.set
-local s_opts = { silent = true }
-keymap("t", "<esc>", [[<C-t><C-n>]], s_opts)
+-- Scope the <Esc> override to toggleterm's own terminals. Mapping it globally
+-- also hijacked plain :terminal buffers (e.g. the ones <leader>sh opens), where
+-- Esc would fire toggleterm's toggle instead of leaving terminal mode.
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "term://*toggleterm#*",
+    callback = function(ev)
+        vim.keymap.set("t", "<esc>", [[<C-t><C-n>]], { buffer = ev.buf, silent = true })
+    end,
+})

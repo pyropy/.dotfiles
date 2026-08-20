@@ -10,8 +10,9 @@ lsp.ensure_installed({
     'rust_analyzer',
 })
 
--- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
+-- Fix Undefined global 'vim'. The server was renamed sumneko_lua -> lua_ls in
+-- early 2023, so configuring the old name was a silent no-op.
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
@@ -36,17 +37,7 @@ lsp.setup_nvim_cmp({
 })
 
 lsp.set_preferences({
-    sign_icons = {}
-})
-
-lsp.set_preferences({
     suggest_lsp_servers = false,
-    sign_icons = {
-        error = 'E',
-        warn = 'W',
-        hint = 'H',
-        info = 'I'
-    }
 })
 
 lsp.on_attach(function(client, bufnr)
@@ -56,8 +47,8 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+    -- [d / ]d intentionally not mapped: Neovim >= 0.11 provides them (plus ]D/[D)
+    -- as defaults, in the right direction. These were previously reversed.
     vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
@@ -67,5 +58,15 @@ end)
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true,
+    virtual_text = { prefix = "▪", spacing = 2 },
+    virtual_lines = { current_line = true },
+    severity_sort = true,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "E",
+            [vim.diagnostic.severity.WARN]  = "W",
+            [vim.diagnostic.severity.HINT]  = "H",
+            [vim.diagnostic.severity.INFO]  = "I",
+        },
+    },
 })
