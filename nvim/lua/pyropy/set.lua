@@ -31,7 +31,7 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
 vim.opt.mousemodel = "popup"
-vim.opt.guioptions = "egmrti"
+-- vim.opt.guioptions = "egmrti"
 vim.opt.gfn = "Monospace 10"
 
 -- Disable the blinking cursor.
@@ -53,3 +53,6 @@ vim.opt.titlestring = "%F"
 if vim.fn.has('unnamedplus') then
     vim.opt.clipboard = "unnamed,unnamedplus"
 end
+
+-- dont hide json strings
+vim.opt.conceallevel = 0
