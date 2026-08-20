@@ -128,4 +128,7 @@ require("lazy").setup({
     install = { colorscheme = { "tokyonight-night", "habamax" } },
     checker = { enabled = false },
     change_detection = { notify = false },
+    -- No plugin here needs a rockspec; without this lazy warns about missing
+    -- luarocks and tries to bootstrap hererocks.
+    rocks = { enabled = false },
 })

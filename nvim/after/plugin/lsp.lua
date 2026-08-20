@@ -11,9 +11,14 @@ vim.lsp.enable({
     "html",
     "lua_ls",
     "rust_analyzer",
-    "solc", -- Solidity
     "ts_ls",
 })
+
+-- Solidity is deliberately absent. `solc --lsp` (the solc binary mason has)
+-- fails the LSP handshake with InvalidParams and never attaches, so enabling
+-- it only produces an error on every .sol buffer. For a working server,
+-- install @nomicfoundation/solidity-language-server and enable
+-- "solidity_ls_nomicfoundation" here.
 
 vim.diagnostic.config({
     virtual_text = { prefix = "▪", spacing = 2 },
