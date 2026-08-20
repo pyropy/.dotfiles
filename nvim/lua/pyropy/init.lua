@@ -1,5 +1,7 @@
 require("pyropy.set")
-require("pyropy.remap")
+require("pyropy.remap") -- must precede lazy: it sets mapleader, which lazy
+                        -- captures when it resolves `keys` specs
+require("pyropy.lazy")
 
 function R(name)
     require("plenary.reload").reload_module(name)
