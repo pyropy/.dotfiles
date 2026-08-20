@@ -50,26 +50,50 @@ require("lazy").setup({
         { "nvim-treesitter/nvim-treesitter", branch = "master", build = ":TSUpdate" },
         "nvim-treesitter/playground",
 
+        -- LSP. Servers are configured with the core vim.lsp.config/vim.lsp.enable
+        -- API in after/plugin/lsp.lua; nvim-lspconfig is here only to supply the
+        -- per-server lsp/*.lua definitions those APIs read off the runtimepath.
+        "neovim/nvim-lspconfig",
+        { "mason-org/mason.nvim", opts = {} },
         {
-            "VonHeikemen/lsp-zero.nvim",
-            branch = "v1.x",
-            dependencies = {
-                -- LSP support
-                "neovim/nvim-lspconfig",
-                "williamboman/mason.nvim",
-                "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason-lspconfig.nvim",
+            opts = {
+                -- Installs the server binaries. Enabling them is done
+                -- explicitly in after/plugin/lsp.lua, not here.
+                automatic_enable = false,
+                ensure_installed = {
+                    "clangd",
+                    "gopls",
+                    "html",
+                    "lua_ls",
+                    "rust_analyzer",
+                    "ts_ls", -- renamed from tsserver in Sept 2024
+                },
+            },
+        },
 
-                -- Autocompletion
-                "hrsh7th/nvim-cmp",
-                "hrsh7th/cmp-nvim-lsp",
-                "hrsh7th/cmp-buffer",
-                "hrsh7th/cmp-path",
-                "saadparwaiz1/cmp_luasnip",
-                "hrsh7th/cmp-nvim-lua",
+        -- Lua development: replaces hand-maintained `globals = { 'vim' }` lists
+        { "folke/lazydev.nvim", ft = "lua", opts = {} },
 
-                -- Snippets
-                "L3MON4D3/LuaSnip",
-                "rafamadriz/friendly-snippets",
+        -- Completion
+        {
+            "saghen/blink.cmp",
+            version = "1.*", -- release tag: ships a prebuilt fuzzy matcher
+            opts = {
+                keymap = {
+                    -- Tab/S-Tab keep selecting completion items, as under
+                    -- nvim-cmp. `fallback` means that when the menu is closed
+                    -- they defer to Neovim's own <Tab> snippet-jump mapping
+                    -- rather than shadowing it.
+                    preset = "none",
+                    ["<Tab>"] = { "select_next", "fallback" },
+                    ["<S-Tab>"] = { "select_prev", "fallback" },
+                    ["<CR>"] = { "accept", "fallback" },
+                    ["<C-space>"] = { "show", "hide" },
+                    ["<C-e>"] = { "hide", "fallback" },
+                },
+                sources = { default = { "lsp", "path", "snippets", "buffer" } },
+                signature = { enabled = true },
             },
         },
 
