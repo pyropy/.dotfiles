@@ -28,15 +28,20 @@ require("lazy").setup({
             dependencies = { "nvim-tree/nvim-web-devicons" },
         },
 
-        "tpope/vim-commentary",  -- Comment stuff out
+        -- Commenting is built into Neovim >= 0.10 (gc, gcc, visual gc), so
+        -- vim-commentary is no longer needed. ts-comments fixes commentstring
+        -- for embedded languages (JSX in TS, script tags in HTML).
+        { "folke/ts-comments.nvim", opts = {} },
+
         "tpope/vim-fugitive",    -- Git wrapper
         "tpope/vim-rhubarb",     -- required by fugitive for :GBrowse
-        "airblade/vim-gitgutter",
-        "Raimondi/delimitMate",  -- Automatic closing of brackets
-        "Yggdroot/indentLine",
         "junegunn/gv.vim",       -- Commit browser
         "mbbill/undotree",
         "tpope/vim-dispatch",
+
+        { "lewis6991/gitsigns.nvim", opts = {} },
+        { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
+        { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
         {
             "nvim-telescope/telescope.nvim",
@@ -47,8 +52,19 @@ require("lazy").setup({
         },
         "nvim-telescope/telescope-project.nvim",
 
-        { "nvim-treesitter/nvim-treesitter", branch = "master", build = ":TSUpdate" },
-        "nvim-treesitter/playground",
+        -- Pinned to `master` for now. The `main` branch is a full rewrite and
+        -- is the long-term target (master is locked and upstream only
+        -- guarantees it for 0.11), but main requires the tree-sitter CLI >=
+        -- 0.26.1, which cannot be built here: the prebuilt binary needs glibc
+        -- 2.39 (system has 2.35) and building it needs rustc >= 1.88 (default
+        -- stable toolchain here is 1.82). Revisit after a rustup update.
+        {
+            "nvim-treesitter/nvim-treesitter",
+            branch = "master",
+            lazy = false,
+            build = ":TSUpdate",
+        },
+        -- playground is archived; :InspectTree, :EditQuery and :Inspect replace it.
 
         -- LSP. Servers are configured with the core vim.lsp.config/vim.lsp.enable
         -- API in after/plugin/lsp.lua; nvim-lspconfig is here only to supply the
