@@ -17,5 +17,8 @@ htop/*
 pamac/*
 Pinta/*
 kde.org/*
-nvim/plugged/*
-coc/extensions
+
+# nvim runtime junk
+nvim/.netrwhist
+nvim/spell/
+nvim/plugin/packer_compiled.lua

@@ -22,9 +22,9 @@ dapgo.setup {
     },
     -- delve configurations
     delve = {
-        -- the path to the executable dlv which will be used for debugging.
-        -- by default, this is the "dlv" executable on your PATH.
-        path = vim.fn.expand("~/go/bin/dlv"),
+        -- No explicit path: use "dlv" from PATH. This was previously hardcoded
+        -- to ~/go/bin/dlv, which does not exist here -- dlv is mise-managed, so
+        -- PATH also survives Go version bumps.
         -- time to wait for delve to initialize the debug session.
         -- default to 20 seconds
         initialize_timeout_sec = 20,
