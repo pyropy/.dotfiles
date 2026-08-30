@@ -63,6 +63,37 @@ require("lazy").setup({
             branch = "master",
             lazy = false,
             build = ":TSUpdate",
+            -- master registers its predicates/directives with `all = false`,
+            -- the pre-0.11 calling convention where a handler got one TSNode
+            -- per capture. 0.11 made lists the default and 0.12 dropped the
+            -- option outright, so those handlers now get a list where they
+            -- expect a node -- e.g. `set-lang-from-info-string!` on a fenced
+            -- markdown block calls `node:range()` on a table and every
+            -- markdown buffer throws from the highlighter. Restore the old
+            -- convention for handlers that ask for it, before master loads.
+            init = function()
+                if vim.fn.has("nvim-0.12") == 0 then
+                    return
+                end
+                local query = require("vim.treesitter.query")
+                local function compat(add)
+                    return function(name, handler, opts)
+                        if type(opts) == "table" and opts.all == false then
+                            local inner = handler
+                            handler = function(match, ...)
+                                local flat = {}
+                                for id, nodes in pairs(match) do
+                                    flat[id] = nodes[#nodes]
+                                end
+                                return inner(flat, ...)
+                            end
+                        end
+                        return add(name, handler, opts)
+                    end
+                end
+                query.add_predicate = compat(query.add_predicate)
+                query.add_directive = compat(query.add_directive)
+            end,
         },
         -- playground is archived; :InspectTree, :EditQuery and :Inspect replace it.
 
